@@ -19,6 +19,18 @@ app.get('/', (req, res) => {
 })
 
 // Routing Config
+const userRouter = require('./src/routers/userRouter')
+app.use = ('/user', userRouter);
+
+const productRouter = require('./src/routers/productRouter')
+app.use = ('/product', productRouter);
+
+const checkoutRouter = require('./src/routers/checkoutRouter')
+app.use = ('/checkout', checkoutRouter);
+
+const reportRouter = require('./src/routers/reportRouter')
+app.use = ('/report', reportRouter);
+//user main router dari excel
 
 // Error Handling
 app.use((err, req, res, next) => {
