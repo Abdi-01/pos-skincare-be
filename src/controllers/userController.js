@@ -23,8 +23,9 @@ module.exports = {
                     console.log("check data after hash password :", req.body);
                 }
 
+
                 let regis = await model.users.create({
-                    username, email, password, phone
+                    username:req.body.username, email:req.body.email, password:req.body.password, phone:req.body.phone
                 });
 
                 return res.status(200).send({
@@ -102,4 +103,42 @@ module.exports = {
             next(error);
         }
     },
+
+    getAllUser: async (req, res, next) => {
+        try {
+            let data = await model.users.findAll({
+                attributes: ["name", "email", "phone", "id"],
+                where: {
+                    isDeleted: 0
+                },
+                include: [{ model: model.role, attributes: ["role"] }]
+            })
+
+            return res.status(200).send(data)
+
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    deleteUser: async (req, res, next) => {
+        console.log(`ini req.params`, req.params);
+        try {
+            let deleteUser = model.users.update({ isDeleted: 1 }, {
+                where: {
+                    uid : req.params.id
+                }
+            })
+
+            console.log("deleteUser : ", deleteUser);
+
+            res.status(200).send({
+                success: true,
+                message: "user deleted"
+            })
+
+        } catch (error) {
+            next(error)
+        }
+    }
 };
