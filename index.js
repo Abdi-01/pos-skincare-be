@@ -3,34 +3,39 @@ require('dotenv').config({ path: join(__dirname, '.env') });
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const FileUpload = require('express-fileupload');
+
 const bearerToken = require('express-bearer-token')
 const PORT = process.env.PORT || 2000;
 
 app.use(cors());
 app.use(express.json());
+app.use(FileUpload());
 app.use(bearerToken());
 // #destination file storage(image/pdf/document)
 app.use("/", express.static(__dirname + "/public"));
 
+
 // DB Check Connection
+const { db } = require('./src/config/config');
 
 app.get('/', (req, res) => {
-  res.status(200).send('<h1>SOCIO API v1</h1>');
+  res.status(200).send('<h1>SKINCARE API</h1>');
 })
 
 // Routing Config
 const userRouter = require('./src/routers/userRouter')
-app.use = ('/user', userRouter);
+app.use('/user', userRouter);
 
-const productRouter = require('./src/routers/productRouter')
-app.use = ('/product', productRouter);
+const productsRouter = require('./src/routers/productsRouter')
+app.use('/products', productsRouter);
 
-const checkoutRouter = require('./src/routers/checkoutRouter')
-app.use = ('/checkout', checkoutRouter);
+// const checkoutRouter = require('./src/routers/checkoutRouter')
+// app.use('/checkout', checkoutRouter);
 
-const reportRouter = require('./src/routers/reportRouter')
-app.use = ('/report', reportRouter);
-//user main router dari excel
+// const reportRouter = require('./src/routers/reportRouter')
+// app.use('/report', reportRouter);
+// user main router dari excel
 
 // Error Handling
 app.use((err, req, res, next) => {
