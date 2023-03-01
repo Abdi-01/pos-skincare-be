@@ -27,8 +27,8 @@ app.get('/', (req, res) => {
 const userRouter = require('./src/routers/userRouter')
 app.use('/user', userRouter);
 
-const productsRouter = require('./src/routers/productsRouter')
-app.use('/products', productsRouter);
+// const productsRouter = require('./src/routers/productsRouter')
+// app.use('/products', productsRouter);
 
 // const checkoutRouter = require('./src/routers/checkoutRouter')
 // app.use('/checkout', checkoutRouter);
